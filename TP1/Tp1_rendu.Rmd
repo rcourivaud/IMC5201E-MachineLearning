@@ -1,0 +1,190 @@
+---
+title: "TP1"
+author: "COURIVAUD - KOUEK"
+date: "24 novembre 2016"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data preparation
+
+```{r }
+FluTrain <- read.csv("FluTrain.csv", header=FALSE)
+colnames(FluTrain) = c("Weeks", "ILI", "Queries")
+```
+
+```{r message = FALSE}
+library(tidyr)
+library(hydroGOF)
+```
+
+## Data Date Formating
+```{r }
+FluTrain = separate(data = FluTrain, col = Weeks, into = c("date1", "date2"), sep = " - " )
+FluTrain$date1 = strptime(FluTrain$date1,format="%Y-%m-%d")
+FluTrain$date2 = strptime(FluTrain$date2,format="%Y-%m-%d")
+FluTrain$year = FluTrain$date1$year + 1900
+FluTrain$week = as.numeric( format(FluTrain$date1+3, "%U"))
+FluTrain$day = FluTrain$date1$nday
+FluTrain$month = FluTrain$date1$mon+1
+```
+### Nombre de cas par an
+
+
+```{r }
+plot(FluTrain$ILI,FluTrain$Queries)
+```
+
+
+### Cycle of Illness over years 
+```{r }
+plot(FluTrain$ILI/mean(FluTrain$ILI), col="blue")
+lines(FluTrain$Queries/mean(FluTrain$Queries), col="red")
+```
+
+
+# 2
+## 2.1.1
+
+The FluTrain dataset period is in 2004-2011.
+
+### Question 1)
+```{r }
+FluTrain[FluTrain$ILI==max(FluTrain$ILI),]
+
+paste("The week is ",FluTrain[FluTrain$ILI==max(FluTrain$ILI),]$week)
+paste("The day is ",FluTrain[FluTrain$ILI==max(FluTrain$ILI),]$date1$mday)
+paste("The month is ",FluTrain[FluTrain$ILI==max(FluTrain$ILI),]$date1$mon+1)
+```
+
+### Question 2)
+```{r }
+FluTrain[FluTrain$Queries==max(FluTrain$Queries),]
+
+paste("The week is ",FluTrain[FluTrain$Queries==max(FluTrain$Queries),]$week)
+paste("The day is ",FluTrain[FluTrain$Queries==max(FluTrain$Queries),]$date1$mday)
+paste("The month is ",FluTrain[FluTrain$Queries==max(FluTrain$Queries),]$date1$mon+1)
+```
+
+### 2.1.2
+```{r }
+histoILI = hist(FluTrain$ILI)
+```
+
+Most of the ILI values are small, with a relatively small number of much larger values (in statistics, this sort of data is called "skew right").
+
+### 2.2.3
+```{r }
+plot((log(FluTrain$ILI)~(FluTrain$Queries)))
+```
+
+There is a positive, linear relationship between log(ILI) and Queries.
+
+### 2.2.4
+log(ILI) = β 0 + β 1 × Queries, where the slope β 1 is positive.
+
+### 2.2.5
+```{r }
+FluTrend1 = lm(log(ILI) ~ Queries, data=FluTrain)
+summary(FluTrend1)
+
+mseTrend1.1 = sum(FluTrend1$residuals**2)/length(FluTrend1$residuals)
+mseTrend1.2 = sum(((predict(FluTrend1, FluTrain)-log(FluTrain$ILI))**2))/length(FluTrain$ILI)
+
+Rsquared1 = summary(FluTrend1)$r.squared
+Rsquared1
+
+#Manual calculation of Rsquarred
+RSS.Trend1 <- sum(FluTrend1$residuals**2)
+model0 = lm(log(ILI) ~ 1, data=FluTrain)
+TSS <- sum(model0$residuals**2)
+Rsquared.calc =  1-(RSS.Trend1 /TSS)
+Rsquared.calc
+```
+
+## 2.3
+```{r }
+FluTest <- read.csv("FluTest.csv", header=FALSE)
+
+colnames(FluTest) = c("Weeks", "ILI", "Queries")
+
+head(FluTest)
+```
+### 2.3.6
+```{r }
+paste("Predicted value for 11th March 2012 : " ,exp(predict(FluTrend1, FluTest[FluTest$Weeks=="2012-03-11 - 2012-03-17",])))
+```
+### 2.3.7
+```{r }
+paste("The real value for 11th March 2012 : " ,FluTest[FluTest$Weeks=="2012-03-11 - 2012-03-17",]$ILI)
+paste("Squared error : " ,(exp(predict(FluTrend1, FluTest[FluTest$Weeks=="2012-03-11 - 2012-03-17",]))-FluTest[FluTest$Weeks=="2012-03-11 - 2012-03-17",]$ILI)**2)
+
+```
+### 2.3.8
+```{r }
+sum(((exp(predict(FluTrend1, FluTest))-FluTest$ILI)**2))/length(FluTest$ILI)
+```
+
+## 2.4
+### 2.4.9
+```{r }
+head(FluTrain)
+FluTrain$ILI_Lag2 = c(c(NA, NA), as.vector(FluTrain$ILI[0:415]))
+plot(log(FluTrain$ILI_Lag2)~FluTrain$ILI)
+```
+
+There is a strong positive relationship between log(ILI Lag2) and log(ILI).
+
+### 2.4.10
+```{r }
+FluTrend2 = lm(log(ILI) ~ Queries + log(ILI_Lag2) , data = FluTrain)
+summary(FluTrend2)
+
+summary(FluTrend2)$r.squared
+mseTrend2 = mean((predict(FluTrend2, FluTrain)-FluTrain$ILI)**2, na.rm=TRUE)
+Rsquared2 = summary(FluTrend2)$r.squared
+```
+### 2.4.11
+```{r }
+
+mseTrend2<mseTrend1.1
+Rsquared2>Rsquared1
+```
+Due to overfitting, FluTrend2 is a weaker model then FluTrend1 on the training set.
+
+## 2.5
+
+### 2.5.12
+
+The ILI value of the second-to-last observation in the training data.
+
+### 2.5.13
+The ILI value of the last observation in the training data.
+
+### 2.5.14
+
+```{r }
+FluTest$ILI_Lag2 = c( as.vector(FluTrain$ILI[416:417]), as.vector(FluTest$ILI[0:50]))
+as.vector(FluTrain$ILI[416:417])
+```
+
+### 2.5.15
+```{r }
+test_predTrend2 = exp(predict(FluTrend2, FluTest))
+mse.test2 = mean((test_predTrend2-FluTest$ILI)**2, na.rm=TRUE)
+```
+### 2.5.16
+```{r }
+test_predTrend1 = exp(predict(FluTrend1, FluTest))
+mse.test1 = mean((test_predTrend1-FluTest$ILI)**2, na.rm=TRUE)
+mse.test2<mse.test1
+```
+## 2.6
+```{r }
+arima(FluTest$ILI, order = c(3,0,0), method = "CSS")
+```
+
+

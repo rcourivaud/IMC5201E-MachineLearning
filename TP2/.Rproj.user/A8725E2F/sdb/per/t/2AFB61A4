@@ -1,0 +1,22 @@
+{
+    "contents" : "",
+    "created" : 1480523197106.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "2AFB61A4",
+    "lastKnownWriteTime" : 7741240722073845761,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "caption" : "df.gamma",
+        "contentUrl" : "content?title=df.gamma&file=5652c351df294603b02b1d21076b864d.htm",
+        "displayedObservations" : "1000",
+        "displayedVariables" : 10,
+        "totalObservations" : "2246",
+        "variables" : "10"
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

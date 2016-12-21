@@ -1,0 +1,22 @@
+{
+    "contents" : "",
+    "created" : 1479306785085.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "AEB1CD9D",
+    "lastKnownWriteTime" : 187155904,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "caption" : "FluTest",
+        "contentUrl" : "content?title=FluTest&file=dbefe20af30b48af89c6a4d80b0b1286.htm",
+        "displayedObservations" : "52",
+        "displayedVariables" : 3,
+        "totalObservations" : "52",
+        "variables" : "3"
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

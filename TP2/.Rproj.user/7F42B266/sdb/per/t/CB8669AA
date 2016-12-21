@@ -1,0 +1,22 @@
+{
+    "contents" : "",
+    "created" : 1481882195090.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "CB8669AA",
+    "lastKnownWriteTime" : 7741240723082584096,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "caption" : "ap_test",
+        "contentUrl" : "content?title=ap_test&file=4f2ef39fe1bc4730bce4674e4c073ebf.htm",
+        "displayedObservations" : 1,
+        "displayedVariables" : 68,
+        "totalObservations" : 1,
+        "variables" : 68
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

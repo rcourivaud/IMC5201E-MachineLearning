@@ -1,0 +1,22 @@
+{
+    "contents" : "",
+    "created" : 1480518891576.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "76D2769D",
+    "lastKnownWriteTime" : 7741240722073845761,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "caption" : "df.beta",
+        "contentUrl" : "content?title=df.beta&file=893170df816245fca982e0a8eabcdb12.htm",
+        "displayedObservations" : 10,
+        "displayedVariables" : 100,
+        "totalObservations" : 10,
+        "variables" : 10473
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

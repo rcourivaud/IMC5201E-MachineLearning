@@ -1,0 +1,22 @@
+{
+    "contents" : "",
+    "created" : 1480524275447.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "2A2B54F5",
+    "lastKnownWriteTime" : 7741240722073845761,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "caption" : "best.themes",
+        "contentUrl" : "content?title=best.themes&file=65e1f0d9bed04d4eaec551be043ee6aa.htm",
+        "displayedObservations" : 1,
+        "displayedVariables" : 4,
+        "totalObservations" : 1,
+        "variables" : 3
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}
